@@ -16,13 +16,3 @@
 
     }
 })();
-
-
-
-// var iframe = document.createElement('iframe');
-// // iframe.src = "http://10.0.0.238:8080/login";
-// // iframe.width = "100%";
-// // iframe.height = "100%";
-// // iframe.style = "position:fixed";
-// // document.body.innerHTML = "";
-// // document.body.appendChild(iframe);

